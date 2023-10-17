@@ -1,0 +1,22 @@
+# Starter pipeline
+
+trigger:
+- Development
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '.'  # Use '.' to copy the entire repository
+    Contents: '**/*'  # Copy all files and subfolders from the root directory
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'   # Copy to the artifact staging directory
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'build artifact'
+    publishLocation: 'Container'
