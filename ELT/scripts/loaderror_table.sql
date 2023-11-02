@@ -17,13 +17,13 @@ DECLARE
 
 BEGIN
 
-     -- Begin a transaction
-
-    BEGIN
-
      -- Check if the script has been executed before
 
-        IF NOT EXISTS (SELECT 1 FROM metadata."ControlTable" WHERE "ScriptName" = ScriptName AND "Version"= Version ) THEN
+        IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE WHERE table_schema = 'metadata' AND table_name = 'LoadError' ) THEN
+ 
+    -- Begin a transaction
+
+ 	   BEGIN
 
              -- Your SQL script logic here
 
@@ -37,8 +37,6 @@ BEGIN
                     "ErrorTimestamp" timestamp(6) with time zone
                 );
 
-        END IF;
-
 
     EXCEPTION
 
@@ -46,15 +44,11 @@ BEGIN
 
          WHEN OTHERS THEN
 
-             -- Rollback the transaction
-
-            ROLLBACK;
-
             -- Rethrow the error
 
-            RAISE;
+         RAISE NOTICE 'Error creating the "ControlTable": %', SQLERRM;
  
-    END;
--- Commit the transaction
-commit;
+       END;
+
+   END IF;
 END$$;
