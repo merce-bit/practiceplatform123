@@ -17,8 +17,8 @@ steps:
 
 # Install ODBC driver
 - script: |
-    # Install the Azure Synapse Analytics ODBC Driver from the Downloads folder
-    msiexec.exe /i "$(Build.ArtifactStagingDirectory)\Downloads\msodbcsql.msi" /quiet
+    # Install the Azure Synapse Analytics ODBC Driver from the specified path
+    msiexec.exe /i "C:\Users\merce\Downloads\msodbcsql.msi" /quiet
   displayName: 'Install Azure Synapse Analytics ODBC Driver'
 
 # Publish artifacts
@@ -27,3 +27,4 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'build artifact'
     publishLocation: 'Container'
+
