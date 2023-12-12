@@ -1,0 +1,30 @@
+# Build pipeline YAML
+
+trigger:
+- Development
+
+pool:
+  vmImage: windows-latest
+
+steps:
+- checkout: self
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '.'  
+    Contents: '**/*'  
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'   
+
+# Install ODBC driver
+- script: |
+    # Install the Azure Synapse Analytics ODBC Driver from the specified path
+    msiexec.exe /i "C:\Users\merce\Downloads\msodbcsql.msi" /quiet
+  displayName: 'Install Azure Synapse Analytics ODBC Driver'
+
+# Publish artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'build artifact'
+    publishLocation: 'Container'
+

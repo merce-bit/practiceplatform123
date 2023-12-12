@@ -4,7 +4,7 @@ trigger:
 - Development
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
 - checkout: self
@@ -19,4 +19,3 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'build artifact'
-    publishLocation: 'Container'
